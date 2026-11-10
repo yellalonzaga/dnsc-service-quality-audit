@@ -1,0 +1,67 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Global denial default
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    // Admins collection: each user can only get their own admin record to check status
+    // App never writes to this collection; document is created in Firebase Console
+    match /admins/{uid} {
+      allow get: if isSignedIn() && request.auth.uid == uid;
+      allow list, write: if false;
+    }
+
+    // User profiles
+    match /users/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+      allow write: if isOwner(userId);
+
+      // Audits under a user
+      match /audits/{auditId} {
+        allow read: if isOwner(userId) || isAdmin();
+        allow write: if isOwner(userId);
+      }
+
+      // Interactions (dialogue messages) under a user
+      match /interactions/{interactionId} {
+        allow read: if isOwner(userId) || isAdmin();
+        allow write: if isOwner(userId);
+      }
+    }
+
+    // Collection-group queries for audits and interactions (Admin only)
+    match /{path=**}/audits/{auditId} {
+      allow read: if isAdmin();
+    }
+
+    match /{path=**}/interactions/{interactionId} {
+      allow read: if isAdmin();
+    }
+
+    // Service standards settings: read by all signed-in users, modified only by admin
+    match /settings/serviceStandards {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    // Admin scorecard reports
+    match /scorecardReports/{reportId} {
+      allow read, write: if isAdmin();
+    }
+  }
+}
