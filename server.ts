@@ -369,14 +369,17 @@ Return JSON with:
   him or her
 - customerVoice: 1 to 5 items {quote: the employee's own words copied exactly from the
   transcript (max 30 words), need: the customer need behind it (max 12 words)}
-- ctqs: 0 to 5 items, one per measurable requirement that matters for this service, each
-  with: need (one of the customerVoice needs); driver (what drives that need, max 8 words);
-  ctq (a measurable requirement, max 15 words); code (an exact standard code, or "None");
-  targetValue (the target time from that standard as a number, or null); reportedValue (the
-  time the employee said it usually takes now, as a number, or null if not stated); unit
-  ("hours", "working days" or "calendar days"; target and reported value must use the same
-  unit, convert if needed, 1 working day = 8 hours); delayCause (where and why it waits, from
-  the transcript, or ""); evidenceQuote (the employee's own words, max 30 words)
+- ctqs: 0 to 5 items. Make one CTQ for every service time the employee mentioned (for
+  example "about 2 working days to reply"), then add other measurable needs if there is
+  room. Each item has: need (one of the customerVoice needs); driver (what drives that need,
+  max 8 words); ctq (a measurable requirement, max 15 words); code (an exact standard code,
+  or "None"); targetValue (the target time from that standard as a number, or null);
+  reportedValue (the time the employee said it takes now, as a number; if the transcript
+  gives a time for this service you MUST fill it in, for example "about 2 working days" ->
+  2; use null only when no time was mentioned); unit ("hours", "working days" or "calendar
+  days"; target and reported value use the same unit, convert if needed, 1 working day = 8
+  hours); delayCause (where and why it waits, from the transcript, or ""); evidenceQuote (the
+  employee's own words that state the time, max 30 words)
 - improvements: 1 to 4 items {action, owner (a role, never a person's name), measure (how
   DNSC will know it worked), code (exact code or "None")}
 - strengths: 0 to 3 things the employee said already work well, in the employee's terms
@@ -708,13 +711,23 @@ Years: ${profileDoc?.yearsInRole || 0}`;
               driver: { type: Type.STRING },
               ctq: { type: Type.STRING },
               code: { type: Type.STRING },
-              targetValue: { type: Type.NUMBER },
-              reportedValue: { type: Type.NUMBER },
+              targetValue: { type: Type.NUMBER, nullable: true },
+              reportedValue: { type: Type.NUMBER, nullable: true },
               unit: { type: Type.STRING },
               delayCause: { type: Type.STRING },
               evidenceQuote: { type: Type.STRING },
             },
-            required: ['need', 'driver', 'ctq', 'code'],
+            required: [
+              'need',
+              'driver',
+              'ctq',
+              'code',
+              'targetValue',
+              'reportedValue',
+              'unit',
+              'delayCause',
+              'evidenceQuote',
+            ],
           },
         },
         improvements: {
@@ -764,9 +777,20 @@ Years: ${profileDoc?.yearsInRole || 0}`;
         code = 'None';
       }
 
-      // Times must be numbers >= 0 or null
-      let targetValue: number | null = typeof ctq.targetValue === 'number' && ctq.targetValue >= 0 ? ctq.targetValue : null;
-      let reportedValue: number | null = typeof ctq.reportedValue === 'number' && ctq.reportedValue >= 0 ? ctq.reportedValue : null;
+      // Times must be numbers >= 0 or null; if model returns time as text (e.g. "2"), convert to number
+      let rawTarget = ctq.targetValue;
+      if (typeof rawTarget === 'string' && rawTarget.trim() !== '') {
+        const parsed = parseFloat(rawTarget.trim());
+        if (!isNaN(parsed)) rawTarget = parsed;
+      }
+      let rawReported = ctq.reportedValue;
+      if (typeof rawReported === 'string' && rawReported.trim() !== '') {
+        const parsed = parseFloat(rawReported.trim());
+        if (!isNaN(parsed)) rawReported = parsed;
+      }
+
+      let targetValue: number | null = typeof rawTarget === 'number' && !isNaN(rawTarget) && rawTarget >= 0 ? rawTarget : null;
+      let reportedValue: number | null = typeof rawReported === 'number' && !isNaN(rawReported) && rawReported >= 0 ? rawReported : null;
 
       let gap: number | null = null;
       let gapPercent: number | null = null;
