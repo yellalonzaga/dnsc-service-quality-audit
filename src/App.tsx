@@ -613,7 +613,7 @@ export default function App() {
     return (
       <div className="min-h-screen bg-[#F7F5FC]">
         <Header user={null} isAdmin={false} onProfileClick={() => {}} />
-        <main className="max-w-[880px] mx-auto px-4 py-6">
+        <main className="max-w-[880px] lg:max-w-[1200px] mx-auto px-4 py-6">
           <LandingView onSignIn={handleSignIn} isLoading={false} />
         </main>
         <ToastContainer toasts={toasts} onDismiss={dismissToast} />
@@ -634,8 +634,8 @@ export default function App() {
         onProfileClick={() => setCurrentTab('profile')}
       />
 
-      {/* Main Content Area in Centered Column (max 880px, Rule Look & Feel) */}
-      <main className="flex-1 max-w-[880px] w-full mx-auto px-4 pt-4 pb-20">
+      {/* Main Content Area in Centered Column (max 880px on phone, max 1200px on lg) */}
+      <main className="flex-1 max-w-[880px] lg:max-w-[1200px] w-full mx-auto px-4 pt-4 pb-20 lg:pb-28">
         {currentTab === 'home' && (
           <HomeView
             user={currentUser}

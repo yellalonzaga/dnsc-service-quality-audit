@@ -38,42 +38,6 @@ export const HomeView: React.FC<HomeViewProps> = ({
 
   return (
     <div className="space-y-6 pb-20 animate-in fade-in duration-200">
-      {/* Welcome Banner */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white via-purple-50/30 to-teal-50/30 border border-purple-100 shadow-sm relative overflow-hidden">
-        <div className="relative z-10">
-          <div className="flex items-center gap-2 mb-2 text-xs font-semibold uppercase tracking-wider text-[#6D28D9]">
-            <Sparkles size={16} />
-            <span>Total Quality Management System</span>
-          </div>
-
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight mb-2">
-            Good day, {firstName}!
-          </h1>
-
-          <p className="text-sm text-slate-600 leading-relaxed max-w-xl mb-6">
-            Welcome to the DNSC Service Quality Audit. Share your frontline experience in delivering campus services. Through a short Voice of the Customer (VOC) interview, we evaluate response times and benchmark delivery against college standards.
-          </p>
-
-          {/* Large Start Service Interview Button */}
-          <button
-            type="button"
-            onClick={onStartInterview}
-            disabled={isStartingAudit}
-            className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-gradient-to-r from-[#6D28D9] to-[#5b21b6] hover:from-[#5b21b6] hover:to-[#4c1d95] text-white font-semibold text-sm shadow-md shadow-purple-900/10 active:scale-[0.99] transition-all flex items-center justify-center gap-3 cursor-pointer disabled:opacity-50"
-          >
-            {isStartingAudit ? (
-              <div className="w-5 h-5 border-2 border-white/40 border-t-white rounded-full animate-spin" />
-            ) : (
-              <>
-                <Sparkles size={18} />
-                <span>Start Service Interview</span>
-                <ArrowRight size={18} className="text-purple-200" />
-              </>
-            )}
-          </button>
-        </div>
-      </div>
-
       {/* Incomplete profile warning banner */}
       {!isProfileComplete && (
         <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 flex items-center justify-between gap-3 text-xs">
@@ -93,9 +57,110 @@ export const HomeView: React.FC<HomeViewProps> = ({
         </div>
       )}
 
+      {/* 2-Column Hero layout on 1024px+ screens (Greeting Card + 4-Stage Methodology Card) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        {/* Welcome Greeting Banner */}
+        <div className="lg:col-span-7 p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white via-purple-50/30 to-teal-50/30 border border-purple-100 shadow-sm relative overflow-hidden flex flex-col justify-between">
+          <div className="relative z-10">
+            <div className="flex items-center gap-2 mb-2 text-xs font-semibold uppercase tracking-wider text-[#6D28D9]">
+              <Sparkles size={16} />
+              <span>Total Quality Management System</span>
+            </div>
+
+            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight mb-2">
+              Good day, {firstName}!
+            </h1>
+
+            <p className="text-sm text-slate-600 leading-relaxed max-w-xl mb-6">
+              Welcome to the DNSC Service Quality Audit. Share your frontline experience in delivering campus services. Through a short Voice of the Customer (VOC) interview, we evaluate response times and benchmark delivery against college standards.
+            </p>
+          </div>
+
+          <div className="relative z-10 pt-2">
+            {/* Large Start Service Interview Button */}
+            <button
+              type="button"
+              onClick={onStartInterview}
+              disabled={isStartingAudit}
+              className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-gradient-to-r from-[#6D28D9] to-[#5b21b6] hover:from-[#5b21b6] hover:to-[#4c1d95] text-white font-semibold text-sm shadow-md shadow-purple-900/10 active:scale-[0.99] transition-all flex items-center justify-center gap-3 cursor-pointer disabled:opacity-50"
+            >
+              {isStartingAudit ? (
+                <div className="w-5 h-5 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+              ) : (
+                <>
+                  <Sparkles size={18} />
+                  <span>Start Service Interview</span>
+                  <ArrowRight size={18} className="text-purple-200" />
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* 4-Stage TQM Methodology Explainer */}
+        <div className="lg:col-span-5 bg-white rounded-3xl shadow-sm border border-slate-200/80 p-6 sm:p-7 flex flex-col justify-between">
+          <div>
+            <h3 className="font-bold text-sm text-slate-900 mb-4 flex items-center gap-2">
+              <CheckCircle size={18} className="text-[#0F766E]" />
+              4-Stage Voice of the Customer (VOC) Methodology
+            </h3>
+
+            <div className="space-y-3.5 text-xs">
+              <div className="flex gap-3">
+                <div className="w-6 h-6 rounded-full bg-purple-100 text-[#6D28D9] font-bold flex items-center justify-center shrink-0">
+                  1
+                </div>
+                <div>
+                  <h4 className="font-semibold text-slate-800">Service & Customers</h4>
+                  <p className="text-slate-500 mt-0.5 leading-relaxed">
+                    Identify the primary service provided, requester channels, and process steps.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex gap-3">
+                <div className="w-6 h-6 rounded-full bg-purple-100 text-[#6D28D9] font-bold flex items-center justify-center shrink-0">
+                  2
+                </div>
+                <div>
+                  <h4 className="font-semibold text-slate-800">Voice of the Customer</h4>
+                  <p className="text-slate-500 mt-0.5 leading-relaxed">
+                    Capture direct quotes, common complaints, and what excellence looks like.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex gap-3">
+                <div className="w-6 h-6 rounded-full bg-purple-100 text-[#6D28D9] font-bold flex items-center justify-center shrink-0">
+                  3
+                </div>
+                <div>
+                  <h4 className="font-semibold text-slate-800">Time & Delays</h4>
+                  <p className="text-slate-500 mt-0.5 leading-relaxed">
+                    Estimate real turnaround times and pinpoint workflow friction and bottlenecks.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex gap-3">
+                <div className="w-6 h-6 rounded-full bg-purple-100 text-[#6D28D9] font-bold flex items-center justify-center shrink-0">
+                  4
+                </div>
+                <div>
+                  <h4 className="font-semibold text-slate-800">Improvements & Standards</h4>
+                  <p className="text-slate-500 mt-0.5 leading-relaxed">
+                    Discuss actionable adjustments aligned with DNSC published standards.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Latest Audit Card (if any) */}
       {latestAudit && (
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6">
+        <div className="bg-white rounded-3xl shadow-sm border border-slate-200/80 p-6 sm:p-7">
           <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
             <div>
               <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider block">
@@ -164,64 +229,6 @@ export const HomeView: React.FC<HomeViewProps> = ({
           </button>
         </div>
       )}
-
-      {/* 4-Stage TQM Methodology Explainer */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6">
-        <h3 className="font-bold text-sm text-slate-900 mb-4 flex items-center gap-2">
-          <CheckCircle size={18} className="text-[#0F766E]" />
-          4-Stage Voice of the Customer (VOC) Methodology
-        </h3>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-          <div className="flex gap-3">
-            <div className="w-6 h-6 rounded-full bg-purple-100 text-[#6D28D9] font-bold flex items-center justify-center shrink-0">
-              1
-            </div>
-            <div>
-              <h4 className="font-semibold text-slate-800">Service & Customers</h4>
-              <p className="text-slate-500 mt-0.5 leading-relaxed">
-                Identify the primary service provided, requester channels, and process steps.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex gap-3">
-            <div className="w-6 h-6 rounded-full bg-purple-100 text-[#6D28D9] font-bold flex items-center justify-center shrink-0">
-              2
-            </div>
-            <div>
-              <h4 className="font-semibold text-slate-800">Voice of the Customer</h4>
-              <p className="text-slate-500 mt-0.5 leading-relaxed">
-                Capture direct quotes, common complaints, and what excellence looks like.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex gap-3">
-            <div className="w-6 h-6 rounded-full bg-purple-100 text-[#6D28D9] font-bold flex items-center justify-center shrink-0">
-              3
-            </div>
-            <div>
-              <h4 className="font-semibold text-slate-800">Time & Delays</h4>
-              <p className="text-slate-500 mt-0.5 leading-relaxed">
-                Estimate real turnaround times and pinpoint workflow friction and bottlenecks.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex gap-3">
-            <div className="w-6 h-6 rounded-full bg-purple-100 text-[#6D28D9] font-bold flex items-center justify-center shrink-0">
-              4
-            </div>
-            <div>
-              <h4 className="font-semibold text-slate-800">Improvements & Standards</h4>
-              <p className="text-slate-500 mt-0.5 leading-relaxed">
-                Discuss actionable adjustments aligned with DNSC published standards.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };

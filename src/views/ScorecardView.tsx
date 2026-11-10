@@ -323,10 +323,10 @@ export const ScorecardView: React.FC<ScorecardViewProps> = ({ allAudits }) => {
                     className="hover:bg-purple-50/50 transition-colors cursor-pointer"
                     title="Click to view full Service Quality Card"
                   >
-                    <td className="py-2.5 px-3 font-semibold text-slate-900 max-w-[140px] truncate">
+                    <td className="py-2.5 px-3 font-semibold text-slate-900 max-w-[140px] lg:max-w-none truncate lg:whitespace-normal">
                       {ctq.service}
                     </td>
-                    <td className="py-2.5 px-3 text-slate-700 max-w-[200px] truncate">
+                    <td className="py-2.5 px-3 text-slate-700 max-w-[200px] lg:max-w-none truncate lg:whitespace-normal">
                       {ctq.ctq}
                     </td>
                     <td className="py-2.5 px-3 font-mono font-bold text-[#6D28D9]">

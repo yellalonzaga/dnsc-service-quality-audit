@@ -10,7 +10,7 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({ user, isAdmin, onProfileClick }) => {
   return (
     <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-purple-100/80 shadow-xs">
-      <div className="max-w-[880px] mx-auto px-4 h-16 flex items-center justify-between">
+      <div className="max-w-[880px] lg:max-w-[1200px] mx-auto px-4 h-16 flex items-center justify-between">
         {/* Brand Lockup */}
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#6D28D9] to-[#8B5CF6] flex items-center justify-center text-white font-bold text-base shadow-sm shrink-0">

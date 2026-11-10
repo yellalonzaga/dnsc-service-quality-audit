@@ -247,7 +247,7 @@ export const StandardsView: React.FC<StandardsViewProps> = ({
                     <FileText size={16} />
                   </div>
                   <div className="min-w-0">
-                    <h4 className="font-bold text-slate-900 truncate">{doc.title}</h4>
+                    <h4 className="font-bold text-slate-900 truncate lg:truncate-none">{doc.title}</h4>
                     <p className="text-[11px] text-slate-500 mt-0.5">
                       {doc.sizeChars.toLocaleString()} chars · Uploaded {new Date(doc.uploadedAt).toLocaleDateString()}
                     </p>
