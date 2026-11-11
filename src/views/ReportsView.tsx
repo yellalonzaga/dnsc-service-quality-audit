@@ -146,7 +146,17 @@ export const ReportsView: React.FC<ReportsViewProps> = ({
 - **Service Score:** ${card.serviceScore !== null ? `${card.serviceScore}% Met` : 'N/A'}
 - **Summary:** ${card.summary}
 
-##### Critical-to-Quality (CTQ) Tree
+##### Voice of the Customer
+`;
+        if (card.customerVoice && card.customerVoice.length > 0) {
+          for (const voc of card.customerVoice) {
+            md += `- "${voc.quote}" — Need: ${voc.need}\n`;
+          }
+        } else {
+          md += `*No customer voice items recorded.*\n`;
+        }
+
+        md += `\n##### Critical-to-Quality (CTQ) Tree
 | Need | Driver | CTQ Requirement | Code | Target | Reported | Gap | Status | Delay Cause |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 `;
